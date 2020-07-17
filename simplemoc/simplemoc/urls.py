@@ -18,5 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(("simplemoc.core.urls", "core"), namespace="core"))
+    path('', include(("simplemoc.core.urls", "core"), namespace="core")),
+    path('cursos', include(("simplemoc.courses.urls", "course"), namespace="course"))
 ]

@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 
 class CourseManager(models.Manager):
 
@@ -25,6 +25,9 @@ class Course(models.Model):
     created_at = models.DateTimeField("Criado em", auto_now_add=True)
     updated_at = models.DateTimeField("Atualizado em", auto_now_add=True)
     objects = CourseManager()
+
+    def get_absolute_url(self):
+        return reverse("course:details", args=(self.slug,))
 
     class Meta:
         verbose_name = "Curso"

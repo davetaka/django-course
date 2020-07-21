@@ -14,29 +14,29 @@ this is the my studying content when i was following the Udemy course
 
 #### functionalities
 1. class system
-* creation, edition and deleting lessons and modules
-* lessons composed by: video, donwloads, quiz
-* associated with courses
+    * creation, edition and deleting lessons and modules
+    * lessons composed by: video, donwloads, quiz
+    * associated with courses
 
 2. questions forum
-* open forum
-* topics organized by categories
-* users must be logged in
+    * open forum
+    * topics organized by categories
+    * users must be logged in
 
 3. submit exercises
-* students can send their solutions files
-* could have something like automatic validation
-* submitted files will generate grade for students
+    * students can send their solutions files
+    * could have something like automatic validation
+    * submitted files will generate grade for students
 
 4. bulletin system
-* bulletin board
-* notices will be sending to students via e-mail
-* they will have a page where they can receive comments
+    * bulletin board
+    * notices will be sending to students via e-mail
+    * they will have a page where they can receive comments
 
 5. users account system
-* users can register themselves and log in system
-* users can change their profiles
-* users will have a public profile
+    * users can register themselves and log in system
+    * users can change their profiles
+    * users will have a public profile
 
 
 ### how to setup and run

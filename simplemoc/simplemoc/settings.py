@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'simplemoc.core',
-    'simplemoc.courses'
+    'simplemoc.courses',
+    'simplemoc.accounts'
 ]
 
 MIDDLEWARE = [

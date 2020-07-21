@@ -19,9 +19,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', include(("simplemoc.core.urls", "core"), namespace="core")),
-    path('cursos/', include(("simplemoc.courses.urls", "course"), namespace="course"))
+    path('cursos/', include(("simplemoc.courses.urls", "course"), namespace="course")),
+    path('conta/', include(("simplemoc.accounts.urls", "course"), namespace="accounts")),
+    path('admin/', admin.site.urls),
 ]
 
 if settings.DEBUG:

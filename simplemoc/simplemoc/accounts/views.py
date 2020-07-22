@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from .forms import RegisterForm
+from .forms import RegisterForm, EditAccountForm
 
 
 @login_required
@@ -29,4 +29,13 @@ def register(request):
 
     context = {"form": form}
 
+    return render(request, template_name, context)
+
+
+@login_required
+def edit(request):
+    template_name = "accounts/edit.html"
+    form = EditAccountForm()
+    context = {}
+    context["form"] = form
     return render(request, template_name, context)

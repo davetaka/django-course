@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from .forms import RegisterForm, EditAccountForm, PasswordChangeForm
+from .forms import RegisterForm, EditAccountForm
 
 
 @login_required

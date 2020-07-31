@@ -1,9 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user_model
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from .forms import RegisterForm, EditAccountForm
+
+from .forms import RegisterForm, EditAccountForm, PasswordResetForm
+from .models import PasswordReset
+from simplemoc.core.utils import generate_hash_key
+
+User = get_user_model()
 
 
 @login_required
@@ -32,6 +37,23 @@ def register(request):
     return render(request, template_name, context)
 
 
+def password_reset(request):
+    template_name = "accounts/password_reset.html"
+    form = PasswordResetForm(request.POST or None)
+    context = {}
+
+    if form.is_valid():
+        user = User.objects.get(email=form.cleaned_data["email"])
+        key = generate_hash_key(user.username)
+        reset = PasswordReset(key=key, user=user)
+        reset.save()
+        context["success"] = True
+
+    context["form"] = form
+
+    return render(request, template_name, context)
+
+
 @login_required
 def edit(request):
     template_name = "accounts/edit.html"
@@ -45,7 +67,7 @@ def edit(request):
             context["success"] = True
     else:
         form = EditAccountForm(instance=request.user)
-        
+
     context["form"] = form
     return render(request, template_name, context)
 

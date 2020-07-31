@@ -57,7 +57,7 @@ def change_password(request):
 
     if request.method == "POST":
         form = PasswordChangeForm(data=request.POST, user=request.user)
-        if form_is_valid():
+        if form.is_valid():
             form.save()
             context["success"] = True
     else:

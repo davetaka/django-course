@@ -9,5 +9,6 @@ urlpatterns = [
     path("editar/", views.edit, name="edit"),
     path("alterar-senha/", views.change_password, name="change_password"),
     path("resetar-senha/", views.password_reset, name="password_reset"),
+    path("confirmar-nova-senha/<str:key>", views.password_reset_confirm, name="password_reset_confirm"),
     path("sair/", LogoutView.as_view(next_page="core:home"), name="logout")
 ]

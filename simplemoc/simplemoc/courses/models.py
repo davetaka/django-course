@@ -65,12 +65,16 @@ class Enrollments(models.Model):
     status = models.IntegerField(
         "Situação",
         choices=STATUS_CHOICES,
-        default=0,
+        default=1,
         blank=True
     )
 
     created_at = models.DateTimeField("Criado em", auto_now_add=True)
     updated_at = models.DateTimeField("Atualizado em", auto_now_add=True)
+
+    def active(self):
+        self.status = 1
+        self.save()
 
     class Meta:
         verbose_name = "Inscrição"

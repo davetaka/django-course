@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, SetP
 from django.contrib.auth import authenticate, login, get_user_model
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from .forms import RegisterForm, EditAccountForm, PasswordResetForm
 from .models import PasswordReset
@@ -44,7 +45,7 @@ def password_reset(request):
 
     if form.is_valid():
         form.save()
-        context["success"] = True
+        messages.success(request, "Um e-mail foi enviado para você com novos detalhes de como criar uma nova senha")
 
     context["form"] = form
 
@@ -75,7 +76,9 @@ def edit(request):
         if form.is_valid():
             form.save()
             form = EditAccountForm(instance=request.user)
-            context["success"] = True
+            messages.success(request, "Os dados foram alterados com sucesso!!!")
+            return redirect("accounts:dashboard")
+
     else:
         form = EditAccountForm(instance=request.user)
 
@@ -92,7 +95,9 @@ def change_password(request):
         form = PasswordChangeForm(data=request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            context["success"] = True
+            messages.success(request, "Sua senha foi alterada com sucesso, faça o login novamente")
+            return redirect("accounts:dashboard")
+
     else:
         form = PasswordChangeForm(user=request.user)
     context["form"] = form

@@ -51,8 +51,8 @@ def edit(request):
 
 
 @login_required
-def edit_password(request):
-    template_name = "accounts/edit_password.html"
+def change_password(request):
+    template_name = "accounts/change_password.html"
     context = {}
 
     if request.method == "POST":

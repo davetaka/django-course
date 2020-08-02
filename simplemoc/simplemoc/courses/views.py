@@ -123,11 +123,11 @@ def show_announcement(request, slug, pk):
         form = CommentForm()
         messages.success(request, 'Seu comentário foi enviado com sucesso')
 
-    template = 'courses/show_announcement.html'
+    template = 'courses/show_announcements.html'
     context = {
         'course': course,
         'announcement': announcement,
         'form': form,
     }
-    
+
     return render(request, template, context)

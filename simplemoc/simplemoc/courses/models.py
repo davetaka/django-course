@@ -42,6 +42,54 @@ class Course(models.Model):
         ordering = ["name"]
 
 
+class Lesson(models.Model):
+    name = models.CharField("Nome", max_length=100)
+    description = models.TextField("Descrição", blank=True)
+    number = models.IntegerField("Número (ordem)", blank=True, default=0)
+    release_date = models.DateField("Data de liberação", blank=True, null=True)
+
+    course = models.ForeignKey(
+        Course,
+        verbose_name="Curso",
+        related_name="lessons",
+        on_delete=models.CASCADE
+    )
+
+    created_at = models.DateTimeField("Criado em", auto_now_add=True)
+    updated_at = models.DateTimeField("Atualizado em", auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Aula"
+        verbose_name_plural = "Aulas"
+        ordering = ["number"]
+
+
+class Material(models.Model):
+    name = models.CharField("Nome", max_length=100)
+    embedded = models.TextField("Conteúdo externo", blank=True)
+    file = models.FileField(upload_to="lessons/materials", blank=True)
+
+    lesson = models.ForeignKey(
+        Lesson,
+        verbose_name="Aula",
+        related_name="materials",
+        on_delete=models.CASCADE
+    )
+
+    def is_embedded(self):
+        return bool(self.embedded)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Material"
+        verbose_name_plural = "Materiais"
+
+
 class Enrollments(models.Model):
 
     STATUS_CHOICES = (

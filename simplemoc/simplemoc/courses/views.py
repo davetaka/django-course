@@ -103,20 +103,31 @@ def show_announcement(request, slug, pk):
 
     if not request.user.is_staff:
         enrollment = get_object_or_404(
-            Enrollments,
+            Enrollment,
             user=request.user,
             course=course
         )
 
         if not enrollment.is_approved():
-            messages.error(request, "A sua inscrição está pendente")
-            return redirect("accounts:dashboard")
+            messages.error(request, 'A sua inscrição está pendente')
+            return redirect('accounts:dashboard')
 
-    template = "courses/show_announcements.html"
     announcement = get_object_or_404(course.announcements.all(), pk=pk)
-    context = {
-        "course": course,
-        "announcement": announcement
-    }
 
+    form = CommentForm(request.POST or None)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.user = request.user
+        comment.announcement = announcement
+        comment.save()
+        form = CommentForm()
+        messages.success(request, 'Seu comentário foi enviado com sucesso')
+
+    template = 'courses/show_announcement.html'
+    context = {
+        'course': course,
+        'announcement': announcement,
+        'form': form,
+    }
+    
     return render(request, template, context)

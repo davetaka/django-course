@@ -26,3 +26,10 @@ class ContactCourse(forms.Form):
             context,
             [settings.CONTACT_EMAIL]
         )
+
+
+class CommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ["comment"]

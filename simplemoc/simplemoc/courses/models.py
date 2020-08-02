@@ -90,7 +90,7 @@ class Material(models.Model):
         verbose_name_plural = "Materiais"
 
 
-class Enrollments(models.Model):
+class Enrollment(models.Model):
 
     STATUS_CHOICES = (
         (0, "Pendente"),
@@ -188,7 +188,7 @@ def post_save_announcements(instance, created, **kwargs):
         }
 
         template_name = "courses/announcement_mail.html"
-        enrollments = Enrollments.objects.filter(
+        enrollments = Enrollment.objects.filter(
             course=instance.course, status=1
         )
         for enrollment in enrollments:

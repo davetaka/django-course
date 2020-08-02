@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Course, Enrollments, Announcement
+from .models import Course, Enrollment, Announcement
 from .forms import ContactCourse, CommentForm
 
 
@@ -41,7 +41,7 @@ def details(request, slug):
 def enrollment(request, slug):
     course = get_object_or_404(Course, slug=slug)
 
-    enrollment, created = Enrollments.objects.get_or_create(
+    enrollment, created = Enrollment.objects.get_or_create(
         user=request.user,
         course=course
     )
@@ -60,7 +60,7 @@ def announcements(request, slug):
 
     if not request.user.is_staff:
         enrollment = get_object_or_404(
-            Enrollments,
+            Enrollment,
             user=request.user,
             course=course
         )
@@ -81,7 +81,7 @@ def announcements(request, slug):
 def undo_enrollment(request, slug):
     course = get_object_or_404(Course, slug=slug)
     enrollment = get_object_or_404(
-        Enrollments, user=request.user, course=course
+        Enrollment, user=request.user, course=course
     )
     if request.method == "POST":
         enrollment.delete()

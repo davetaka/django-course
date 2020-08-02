@@ -1,4 +1,4 @@
-from simplemoc.courses.models import Enrollments
+from simplemoc.courses.models import Enrollment
 from django.template import Library
 
 register = Library()
@@ -6,7 +6,7 @@ register = Library()
 
 @register.inclusion_tag("courses/templatetags/my_courses.html")
 def my_courses(user):
-    enrollments = Enrollments.objects.filter(user=user)
+    enrollments = Enrollment.objects.filter(user=user)
 
     context = {
         "enrollments": enrollments
@@ -17,4 +17,4 @@ def my_courses(user):
 
 @register.simple_tag
 def load_my_courses(user):
-    return Enrollments.objects.filter(user=user)
+    return Enrollment.objects.filter(user=user)

@@ -2,6 +2,8 @@ from django.db import models
 from django.urls import reverse
 from django.conf import settings
 
+from simplemoc.core.mail import send_mail_template
+
 
 class CourseManager(models.Manager):
 
@@ -86,7 +88,8 @@ class Enrollments(models.Model):
 
 
 class Announcement(models.Model):
-    course = models.ForeignKey(Course, verbose_name="Curso", related_name="announcements", on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, verbose_name="Curso",
+                               related_name="announcements", on_delete=models.CASCADE)
     title = models.CharField("Titulo", max_length=100)
     content = models.TextField("Conteúdo")
 
@@ -111,7 +114,12 @@ class Comment(models.Model):
         on_delete=models.CASCADE
     )
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="usuário", on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        verbose_name="usuário",
+        on_delete=models.CASCADE
+    )
+
     comment = models.TextField("Comentário")
 
     created_at = models.DateTimeField("Criado em", auto_now_add=True)
@@ -121,3 +129,27 @@ class Comment(models.Model):
         verbose_name = "Comentário"
         verbose_name_plural = "Comentários"
         ordering = ["created_at"]
+
+
+def post_save_announcements(instance, created, **kwargs):
+
+    if created:
+        subject = instance.title
+        context = {
+            "announcement": instance
+        }
+
+        template_name = "courses/announcement_mail.html"
+        enrollments = Enrollments.objects.filter(
+            course=instance.course, status=1
+        )
+        for enrollment in enrollments:
+            recipient_list = [enrollment.user.email]
+            send_mail_template(subject, template_name, context, recipient_list)
+
+
+models.signals.post_save.connect(
+    post_save_announcements,
+    sender=Announcement,
+    dispatch_uid="post_save_announcement"
+)

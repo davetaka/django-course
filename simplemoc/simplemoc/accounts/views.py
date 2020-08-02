@@ -5,9 +5,11 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
+from simplemoc.core.utils import generate_hash_key
+
 from .forms import RegisterForm, EditAccountForm, PasswordResetForm
 from .models import PasswordReset
-from simplemoc.core.utils import generate_hash_key
+
 
 User = get_user_model()
 
@@ -15,7 +17,8 @@ User = get_user_model()
 @login_required
 def dashboard(request):
     template_name = "accounts/dashboard.html"
-    return render(request, template_name)
+    context = {}
+    return render(request, template_name, context)
 
 
 def register(request):

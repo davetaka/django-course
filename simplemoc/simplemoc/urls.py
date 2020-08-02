@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', include(("simplemoc.core.urls", "core"), namespace="core")),
-    path('cursos/', include(("simplemoc.courses.urls", "course"), namespace="course")),
+    path('cursos/', include(("simplemoc.courses.urls", "courses"), namespace="courses")),
     path('conta/', include(("simplemoc.accounts.urls", "accounts"), namespace="accounts")),
     path('admin/', admin.site.urls),
 ]

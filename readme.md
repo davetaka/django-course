@@ -50,3 +50,4 @@ this is the my studying content when i was following the Udemy course
 ### notes
 * uses purecss
 * django in 3.0.8
+* uses model_mommy for creating stubs

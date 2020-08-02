@@ -45,7 +45,8 @@ def password_reset(request):
 
     if form.is_valid():
         form.save()
-        messages.success(request, "Um e-mail foi enviado para você com novos detalhes de como criar uma nova senha")
+        messages.success(
+            request, "Um e-mail foi enviado para você com novos detalhes de como criar uma nova senha")
 
     context["form"] = form
 
@@ -76,7 +77,8 @@ def edit(request):
         if form.is_valid():
             form.save()
             form = EditAccountForm(instance=request.user)
-            messages.success(request, "Os dados foram alterados com sucesso!!!")
+            messages.success(
+                request, "Os dados foram alterados com sucesso!!!")
             return redirect("accounts:dashboard")
 
     else:
@@ -95,7 +97,8 @@ def change_password(request):
         form = PasswordChangeForm(data=request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            messages.success(request, "Sua senha foi alterada com sucesso, faça o login novamente")
+            messages.success(
+                request, "Sua senha foi alterada com sucesso, faça o login novamente")
             return redirect("accounts:dashboard")
 
     else:

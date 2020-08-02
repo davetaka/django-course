@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', include(("simplemoc.core.urls", "core"), namespace="core")),
     path('cursos/', include(("simplemoc.courses.urls", "courses"), namespace="courses")),
+    path('forum/', include(("simplemoc.forum.urls", "forum"), namespace="forum")),
     path('conta/', include(("simplemoc.accounts.urls", "accounts"), namespace="accounts")),
     path('admin/', admin.site.urls),
 ]

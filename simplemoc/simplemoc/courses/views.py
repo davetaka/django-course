@@ -6,6 +6,7 @@ from .models import Course, Enrollment, Announcement, Lesson, Material
 from .forms import ContactCourse, CommentForm
 from .decorators import enrollment_required
 
+
 def index(request):
     courses = Course.objects.all()
     template_name = "courses/index.html"
@@ -118,10 +119,10 @@ def lessons(request, slug):
     course = request.course
     template = 'courses/lessons.html'
     lessons = course.release_lessons()
-    
+
     if request.user.is_staff:
         lessons = course.lessons.all()
-    
+
     context = {
         'course': course,
         'lessons': lessons
@@ -144,5 +145,28 @@ def lesson(request, slug, pk):
     context = {
         'course': course,
         'lesson': lesson
+    }
+    return render(request, template, context)
+
+
+@login_required
+@enrollment_required
+def material(request, slug, pk):
+    course = request.course
+    material = get_object_or_404(Material, pk=pk, lesson__course=course)
+    lesson = material.lesson
+
+    if not request.user.is_staff and not lesson.is_available():
+        messages.error(request, 'Este material não está disponível')
+        return redirect('courses:lesson', slug=course.slug, pk=lesson.pk)
+
+    if not material.is_embedded():
+        return redirect(material.file.url)
+
+    template = 'courses/material.html'
+    context = {
+        'course': course,
+        'lesson': lesson,
+        'material': material,
     }
     return render(request, template, context)

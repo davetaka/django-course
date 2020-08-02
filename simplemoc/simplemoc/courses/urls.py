@@ -7,5 +7,7 @@ urlpatterns = [
     path("<str:slug>/inscricao", views.enrollment, name="enrollment"),
     path("<str:slug>/cancelar-inscricao", views.undo_enrollment, name="undo_enrollment"),
     path("<str:slug>/anuncios", views.announcements, name="announcements"),
+    path("<str:slug>/aulas", views.lessons, name="lessons"),
+    path("<str:slug>/aulas/<int:pk>", views.lesson, name="lesson"),
     path("<str:slug>/anuncios/<int:pk>", views.show_announcement, name="show_announcement")
 ]

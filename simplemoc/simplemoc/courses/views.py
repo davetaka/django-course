@@ -71,7 +71,8 @@ def announcements(request, slug):
 
     template = "courses/announcements.html"
     context = {
-        "course": course
+        "course": course,
+        "announcements": course.announcements.all()
     }
     return render(request, template, context)
 

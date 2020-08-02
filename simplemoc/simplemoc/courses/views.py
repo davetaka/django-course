@@ -74,3 +74,23 @@ def announcements(request, slug):
         "course": course
     }
     return render(request, template, context)
+
+
+@login_required
+def undo_enrollment(request, slug):
+    course = get_object_or_404(Course, slug=slug)
+    enrollment = get_object_or_404(
+        Enrollments, user=request.user, course=course
+    )
+    if request.method == "POST":
+        enrollment.delete()
+        messages.success(request, "Sua inscrição foi cancelada com sucesso")
+        return redirect("accounts:dashboard")
+
+    template = "courses/undo_enrollment.html"
+    context = {
+        "enrollment": enrollment,
+        "course": course
+    }
+
+    return render(request, template, context)

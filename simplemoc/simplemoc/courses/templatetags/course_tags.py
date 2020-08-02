@@ -6,7 +6,7 @@ register = Library()
 
 @register.inclusion_tag("courses/templatetags/my_courses.html")
 def my_courses(user):
-    enrollments = Enrollment.objects.filter(user=user)
+    enrollments = Enrollments.objects.filter(user=user)
 
     context = {
         "enrollments": enrollments
@@ -17,4 +17,4 @@ def my_courses(user):
 
 @register.simple_tag
 def load_my_courses(user):
-    return Enrollment.objects.filter(user=user)
+    return Enrollments.objects.filter(user=user)

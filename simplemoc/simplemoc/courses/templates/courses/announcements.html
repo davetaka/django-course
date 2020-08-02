@@ -3,7 +3,7 @@
 {% block dashboard_content %}
 {% for announcement in announcements %}
 <div class="well">
-    <h2>{% announcement.title %}</h2>
+    <h2><a href="{% url 'course:show_announcement' course.slug announcement.pk %}">{{ announcement.title }}</a></h2>
     <p>
         {{ announcement.content|linebreaks }}
     </p>

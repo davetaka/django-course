@@ -3,6 +3,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from simplemoc.core.mail import send_mail_template
 
+from .models import Comment
 
 class ContactCourse(forms.Form):
 

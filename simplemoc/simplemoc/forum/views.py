@@ -85,7 +85,7 @@ class ThreadView(DetailView):
             reply.author = self.request.user
             reply.save()
             messages.success(
-                self.request, 'A sua responsta foi enviada com sucesso'
+                self.request, 'A sua resposta foi enviada com sucesso'
             )
             context['form'] = ReplyForm()
 

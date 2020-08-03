@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
+
 from taggit.managers import TaggableManager
 
 
@@ -37,14 +39,14 @@ class Thread(models.Model):
 class Reply(models.Model):
 
     thread = models.ForeignKey(
-        Thread, 
-        verbose_name='Tópico', 
+        Thread,
+        verbose_name='Tópico',
         related_name='replies',
         on_delete=models.CASCADE
     )
     reply = models.TextField('Resposta')
     author = models.ForeignKey(
-        settings.AUTH_USER_MODEL, 
+        settings.AUTH_USER_MODEL,
         verbose_name='Autor',
         related_name='replies',
         on_delete=models.CASCADE
@@ -61,3 +63,25 @@ class Reply(models.Model):
         verbose_name = 'Resposta'
         verbose_name_plural = 'Respostas'
         ordering = ['-correct', 'created']
+
+
+def post_save_reply(created, instance, **kwargs):
+    instance.thread.answers = instance.thread.replies.count()
+    instance.thread.save()
+    if instance.correct:
+        instance.thread.replies.exclude(pk=instance.pk).update(
+            correct=False
+        )
+
+
+def post_delete_reply(instance, **kwargs):
+    instance.thread.answers = instance.thread.replies.count()
+    instance.thread.save()
+
+
+models.signals.post_save.connect(
+    post_save_reply, sender=Reply, dispatch_uid='post_save_reply'
+)
+models.signals.post_delete.connect(
+    post_delete_reply, sender=Reply, dispatch_uid='post_delete_reply'
+)

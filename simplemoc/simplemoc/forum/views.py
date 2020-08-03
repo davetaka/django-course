@@ -104,7 +104,7 @@ class ReplyCorrectView(View):
 
         if request.is_ajax():
             data = {'success': True, 'message': message}
-            return HttpResponse(json.dumps(data), mimetype='application/json')
+            return HttpResponse(json.dumps(data), content_type='application/json')
         else:
             messages.success(request, message)
             return redirect(reply.thread.get_absolute_url())

@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 
 from .models import Thread, Reply
+from .forms import ReplyForm
 
 
 # sample of normal View
@@ -53,7 +54,7 @@ class ThreadView(DetailView):
 
     def get(self, request, *args, **kwargs):
         response = super(ThreadView, self).get(request, *args, **kwargs)
-        if not self.request.user.is_authenticated() or (self.object.author != self.request.user):
+        if not self.request.user.is_authenticated or (self.object.author != self.request.user):
             self.object.views = self.object.views + 1
             self.object.save()
 
@@ -63,21 +64,21 @@ class ThreadView(DetailView):
         context = super(ThreadView, self).get_context_data(**kwargs)
         context['tags'] = Thread.tags.all()
         context['form'] = ReplyForm(self.request.POST or None)
-        
+
         return context
 
     def post(self, request, *args, **kwargs):
-        if not self.request.user.is_authenticated():
+        if not self.request.user.is_authenticated:
             messages.error(
                 self.request,
                 'Para responder ao tópico é necessário estar logado'
             )
             return redirect(self.request.path)
-        
+
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
         form = context['form']
-        
+
         if form.is_valid():
             reply = form.save(commit=False)
             reply.thread = self.object
@@ -87,7 +88,7 @@ class ThreadView(DetailView):
                 self.request, 'A sua responsta foi enviada com sucesso'
             )
             context['form'] = ReplyForm()
-        
+
         return self.render_to_response(context)
 
 
